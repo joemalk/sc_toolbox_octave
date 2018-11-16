@@ -93,8 +93,10 @@ if ode
 
   % Solve ODE
   z0 = [real(z0);imag(z0)];
-  [t,y] = ode23('deimapfun',[0,0.5,1],z0,odeset('abstol',odetol),...
-      scale,z,beta,c);
+%  [t,y] = ode23('deimapfun',[0,0.5,1],z0,odeset('abstol',odetol),...
+%      scale,z,beta,c);
+  [t,y] = ode23(@(w,y) deimapfun(w,y,odeset('abstol',odetol),...
+      scale,z,beta,c),[0,0.5,1],z0); % modified by J.M.
   [m,leny] = size(y);
   zp(~done) = y(m,1:lenwp)+sqrt(-1)*y(m,lenwp+1:leny);
   out = abs(zp) > 1;
